@@ -54,7 +54,6 @@ func FindErrNums(nums []int) []int {
 
 // Time complexity is O(n2) -> very expensive
 
-
 /* Q2. How Many Numbers Are Smaller Than the Current Number
 Easy
 Topics
@@ -65,17 +64,17 @@ Given the array nums, for each nums[i] find out how many numbers in the array ar
 
 Return the answer in an array.
 
- 
+
 
 Example 1:
 
 Input: nums = [8,1,2,2,3]
 Output: [4,0,1,1,3]
-Explanation: 
-For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). 
+Explanation:
+For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3).
 For nums[1]=1 does not exist any smaller number than it.
-For nums[2]=2 there exist one smaller number than it (1). 
-For nums[3]=2 there exist one smaller number than it (1). 
+For nums[2]=2 there exist one smaller number than it (1).
+For nums[3]=2 there exist one smaller number than it (1).
 For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
 
 Example 2:
@@ -114,7 +113,7 @@ func SmallerNumbersThanCurrent(nums []int) []int {
 
 }
 
-// Time complexity: O(n2) - 
+// Time complexity: O(n2) -
 // space compexity: O(1) - constant space
 // Ideal for smaller inputs
 func BSmallerNumbersThanCurrent(nums []int) []int {
@@ -134,3 +133,17 @@ func BSmallerNumbersThanCurrent(nums []int) []int {
 }
 
 // Brute force
+
+func FindDisappearedNumbers(nums []int) []int {
+	sorted := append([]int(nil), nums...)
+	slices.Sort(sorted)
+	results := []int{}
+
+	for num := 1; num <= len(sorted); num++ {
+		if !slices.Contains(sorted, num) {
+			results = append(results, num)
+
+		}
+	}
+	return results
+}
