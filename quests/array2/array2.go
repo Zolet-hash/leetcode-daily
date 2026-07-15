@@ -134,16 +134,67 @@ func BSmallerNumbersThanCurrent(nums []int) []int {
 
 // Brute force
 
+/*Q3. Find All Numbers Disappeared in an Array
+Attempted
+Easy
+Topics
+premium lock iconCompanies
+Hint
+
+Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+ 
+
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [5,6]
+
+Example 2:
+
+Input: nums = [1,1]
+Output: [2]
+
+ */
+
+// Follow up: Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space
 func FindDisappearedNumbers(nums []int) []int {
-	sorted := append([]int(nil), nums...)
-	slices.Sort(sorted)
 	results := []int{}
 
-	for num := 1; num <= len(sorted); num++ {
-		if !slices.Contains(sorted, num) {
+	for num := 1; num <= len(nums); num++ {
+		if !slices.Contains(nums, num) {
 			results = append(results, num)
 
 		}
 	}
 	return results
+}
+
+func findDisappearedNumbers(nums []int) []int {
+    results := []int{}
+
+    // Mark seen numbers by making the corresponding index negative.
+    for _, num := range nums {
+        index := abs(num) - 1
+        if nums[index] > 0 {
+            nums[index] = -nums[index]
+        }
+    }
+
+    // Any positive value means its index + 1 was never seen.
+    for i, num := range nums {
+        if num > 0 {
+            results = append(results, i+1)
+        }
+    }
+
+    return results
+}
+
+// negative/positive mapper negator
+func abs(x int) int {
+    if x < 0 {
+        return -x
+    }
+    return x
 }
