@@ -3,6 +3,7 @@ package stack
 import (
 	"slices"
 	"strconv"
+	"strings"
 )
 
 /*
@@ -43,6 +44,7 @@ func (s *Stack) Pop() {
 func operate() {
 
 }
+
 // https://leetcode.com/problems/evaluate-reverse-polish-notation/submissions/2069099778/?envType=problem-list-v2&envId=dsa-linear-shoal-stack
 func isOperator(s string) bool {
 	switch s {
@@ -94,3 +96,42 @@ func EvalRPN(tokens []string) int {
 	return int(items[0])
 
 }
+
+func ExclusiveTime(n int, logs []string) []int {
+	results := make([]int, n)
+	stack := []int{}
+	prevTime := 0
+
+	for _, log := range logs {
+		parts := strings.Split(log, ":")
+
+		id, _ := strconv.Atoi(parts[0])
+		event := parts[1] // start/stop
+		time, _ := strconv.Atoi(parts[2])
+		if event == "start" {
+			// the function currently on top has been running
+			// from prev time until just this time
+			if len(stack) > 0 {
+				top := stack[len(stack)-1]
+				results[top] += time - prevTime
+			}
+			stack = append(stack, id)
+			prevTime = time
+
+		} else { // "end"
+			// The current function finishes at END of time
+			// so we include this timestamp (+1)
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+
+			results[top] += time - prevTime + 1
+
+			//Next execution after this timestamp
+			prevTime = time + 1
+		}
+
+	}
+	return results
+}
+
+// ["0:start:0","1:start:2","1:end:5","0:end:6"]
